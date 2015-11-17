@@ -1,13 +1,6 @@
 NodeDirectUploader
 ===================
 
-Licensing
-----------
-
-The files in this repository are, unless stated otherwise, released under the Apache License. You are free to redistribute this code with or without modification. The full license text is available [here](http://www.apache.org/licenses/LICENSE-2.0). 
-
-
-
 Direct-to-S3 uploads in a Node.js application running on Heroku
 -----------------------------------------------------------------------------
 
@@ -22,30 +15,29 @@ This code is mostly ready to be run as cloned, but a function `update_account()`
 
 Ensure Node is installed. This can be done through your package manager or from their [website](http://nodejs.org/).
 
-Clone this repository:
-```term
-$ git clone git@github.com:flyingsparx/NodeDirectUploader.git
-```
+Clone this repository and install the dependencies with npm:
 
-Change directory into the application and use `npm` to install the application's dependencies:
 ```term
+$ git clone git@github.com:f3r/NodeDirectUploader.git
 $ cd NodeDirectUploader
 $ npm install
 ```
 
-
 ## Running the application
 
-* Set environment variables for your AWS access key and secret (see Heroku's  [Config Vars article](https://devcenter.heroku.com/articles/config-vars))
+* Set environment variables for your AWS access key and secret (see Heroku's [Config Vars article](https://devcenter.heroku.com/articles/config-vars))
 * Download and install the [Heroku toolbelt](https://toolbelt.heroku.com/)
-* Run with ```$ foreman start```
+* Run with [Foreman](http://theforeman.org/)
+
+```term
+$ foreman start
+```
 
 
-## Deploying the application 
+## Deploying the application
 
 See the article [Deploying with Git](https://devcenter.heroku.com/articles/git) for more detailed information on deploying to Heroku.
 
 * Download and install the [Heroku toolbelt](https://toolbelt.heroku.com/)
-* Commit your application to a local Git repository (e.g. `git init`, `git add .`, `git commit -m "version 1 commit"`, etc.)
 * Create the application on Heroku by adding a Git remote (`$ heroku create`)
 * Push your code to the new Heroku repo (`$ git push heroku master`)

@@ -1,10 +1,34 @@
 {
-  "name": "NodeDirectUploader",
-  "version": "0.0.1",
-  "private": true,
+  "name": "node-direct-uploader",
+  "version": "1.0.0",
+  "description": "App to demonstrate file upload from browser to AWS S3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f3r/NodeDirectUploader.git"
+  },
+  "author": "Fer Martin",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/f3r/NodeDirectUploader/issues"
+  },
+  "homepage": "https://github.com/f3r/NodeDirectUploader#readme",
   "dependencies": {
-    "express": "3.x",
-    "ejs": "*",
-    "aws-sdk": "*"
+    "aws-sdk": "^2.2.17",
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "express-ejs-layouts": "^2.0.0",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.2.6",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "debug": "^2.2.0",
+    "morgan": "^1.6.1"
   }
 }

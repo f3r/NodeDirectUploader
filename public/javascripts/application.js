@@ -1,32 +1,3 @@
-<html>
-<body>
-
-<h1>Edit your account</h1>
-
-<hr />
-
-<h2>Your avatar</h2>
-
-<input type="file" id="file_input"/>
-<p id="status">Please select a file</p>
-<img style="border:1px solid gray;width:300px;"  id="preview" src="/images/default.png" />
-
-<h2>Your information</h2>
-
-<form method="POST" action="/submit_form/">
-    <input type="hidden" id="avatar_url" name="avatar_url" value="/images/default.png" />
-    <input type="text" name="username" placeholder="Username" /><br />
-    <input type="text" name="full_name" placeholder="Full name" /><br /><br />
-    
-    <hr />
-    <h2>Save changes</h2>
-
-    <input type="submit" value="Update profile" />
-</form>
-
-
-<script type="text/javascript">
-
 /*
     Function to carry out the actual PUT request to S3 using the signed request from the app.
 */
@@ -36,12 +7,12 @@ function upload_file(file, signed_request, url){
     xhr.setRequestHeader('x-amz-acl', 'public-read');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            document.getElementById("preview").src = url;            
+            document.getElementById("preview").src = url;
             document.getElementById("avatar_url").value = url;
         }
     };
     xhr.onerror = function() {
-        alert("Could not upload file."); 
+        alert("Could not upload file.");
     };
     xhr.send(file);
 }
@@ -89,7 +60,3 @@ function init_upload(){
 (function() {
     document.getElementById("file_input").onchange = init_upload;
 })();
-
-</script>
-</body>
-</html>

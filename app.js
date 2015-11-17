@@ -1,28 +1,33 @@
-/*
- Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+// APP PACKAGES
+var express        = require('express');
+var path           = require('path');
+var debug          = require('debug');
+var logger         = require('morgan');
+var mongoose       = require('mongoose');
+var bodyParser     = require('body-parser');
+var expressLayouts = require('express-ejs-layouts');
+var aws            = require('aws-sdk');
 
- http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-*/
-
-
-/*
- * Import required packages.
- * Packages should be installed with "npm install".
- */
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var aws = require('aws-sdk');
-
-/*
- * Set-up the Express app.
- */
 var app = express();
-app.set('views', __dirname + '/views');
-app.engine('html', require('ejs').renderFile);
+
+// Mongoose Configuration
+var moongoose = require('mongoose');
+moongoose.connect('mongodb://localhost/animalshelter');
+
+// Middleware Configuration
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Template Enginer Configuration
+app.set('views', path.join(__dirname, 'views'));
+app.use(expressLayouts);
+app.engine('ejs', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+
 app.set('port', process.env.PORT || 3000);
+
+// Serving Static Assets to client
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*
@@ -37,7 +42,7 @@ var S3_BUCKET = process.env.S3_BUCKET
  * Upon request, render the 'account.html' web page in views/ directory.
  */
 app.get('/account', function(req, res){
-    res.render('account.html');
+    res.render('account');
 });
 
 /*
@@ -48,32 +53,32 @@ app.get('/account', function(req, res){
 app.get('/sign_s3', function(req, res){
     aws.config.update({accessKeyId: AWS_ACCESS_KEY , secretAccessKey: AWS_SECRET_KEY });
     aws.config.update({region: 'your-region' , signatureVersion: 'v4' });
-    var s3 = new aws.S3(); 
-    var s3_params = { 
-        Bucket: S3_BUCKET, 
-        Key: req.query.file_name, 
-        Expires: 60, 
-        ContentType: req.query.file_type, 
+    var s3 = new aws.S3();
+    var s3_params = {
+        Bucket: S3_BUCKET,
+        Key: req.query.file_name,
+        Expires: 60,
+        ContentType: req.query.file_type,
         ACL: 'public-read'
-    }; 
-    s3.getSignedUrl('putObject', s3_params, function(err, data){ 
-        if(err){ 
-            console.log(err); 
+    };
+    s3.getSignedUrl('putObject', s3_params, function(err, data){
+        if(err){
+            console.log(err);
         }
-        else{ 
+        else{
             var return_data = {
                 signed_request: data,
-                url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name 
+                url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name
             };
             res.write(JSON.stringify(return_data));
             res.end();
-        } 
+        }
     });
 });
 
 /*
  * Respond to POST requests to /submit_form.
- * This function needs to be completed to handle the information in 
+ * This function needs to be completed to handle the information in
  * a way that suits your application.
  */
 app.post('/submit_form', function(req, res){
